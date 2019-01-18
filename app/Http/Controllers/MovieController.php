@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repository\MovieRepository;
+use App\Repositories\MovieRepository;
 
-class MoviesController extends Controller
+class MovieController extends Controller
 {
     protected $movie;
 
@@ -23,7 +23,7 @@ class MoviesController extends Controller
     public function index()
     {
         $movies = $this->movie->all();
-        return view('movie.index', compact('movies'));
+        return view('movies.index', compact('movies'));
     }
 
     /**
@@ -33,7 +33,7 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        return view ('movie.create')
+        return view ('movies.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class MoviesController extends Controller
     public function show($id)
     {
         $movie =  $this->movie->show($id)->with('showtimes.cinema');
-        return view ('movie.show', compact('movies'));
+        return view ('movies.show', compact('movies'));
     }
 
     /**
@@ -72,7 +72,7 @@ class MoviesController extends Controller
      */
     public function edit($id)
     {
-        return view ('movie.edit')
+        return view ('movies.edit');
     }
 
     /**

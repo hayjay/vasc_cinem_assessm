@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repository\ShowtimeRepository;
+use App\Repositories\ShowtimeRepository;
+use App\Repositories\CinemaRepository;
 
-class ShowtimesController extends Controller
+class ShowtimeController extends Controller
 {
     protected $showtime;
 
-    function __construct(ShowtimeRepository $showtime)
+    function __construct(ShowtimeRepository $showtime, CinemaRepository $cinema)
     {
         $this->showtime = $showtime;
+        $this->cinema = $cinema;
         $this->middleware('auth')->except(['show', 'index']);
     }
 
@@ -33,7 +35,8 @@ class ShowtimesController extends Controller
      */
     public function create()
     {
-        return view ('showtimes.create')
+        $cinemas = $this->cinema->all();
+        return view ('showtimes.create', compact('cinemas'));
     }
 
     /**
@@ -45,7 +48,7 @@ class ShowtimesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|alpha|max:180'
+            'title' => 'required',
             'start_time' => 'required|time'
         ]);
 
@@ -73,7 +76,7 @@ class ShowtimesController extends Controller
      */
     public function edit($id)
     {
-       return view ('showtimes.edit')
+       return view ('showtimes.edit');
     }
 
     /**
@@ -86,7 +89,7 @@ class ShowtimesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required|alpha|max:180'
+            'title' => 'required',
             'start_time' => 'required|time'
         ]);
         $this->showtime->update($request->all(), $id);

@@ -21,4 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('cinemas', 'CinemaController');
 Route::resource('movies', 'MovieController');
-Route::resource('show_time', 'CinemaController');
+Route::resource('showtimes', 'ShowtimeController');

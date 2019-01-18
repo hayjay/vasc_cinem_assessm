@@ -23,7 +23,7 @@ class CinemaController extends Controller
     public function index()
     {
         $cinemas = $this->cinema->all();
-        return view('cinema.index', compact('cinemas'));
+        return view('cinemas.index', compact('cinemas'));
     }
 
     /**
@@ -33,7 +33,7 @@ class CinemaController extends Controller
      */
     public function create()
     {
-        return view ('cinema.create');
+        return view ('cinemas.create');
     }
 
     /**
@@ -45,12 +45,12 @@ class CinemaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|alpha|max:180',
+            'title' => 'required',
             'address' => 'required'
         ]);
 
         $cinema =  $this->cinema->create($request->all());
-        return back()->with('Cinema created successfully!');
+        return back()->with('success', 'Cinema created successfully!');
     }
 
     /**
@@ -61,8 +61,9 @@ class CinemaController extends Controller
      */
     public function show($id)
     {
-        $cinema =  $this->cinema->show($id)->with('movies.showtimes');
-        return view ('cinema.show', compact('movies'));
+        $cinema =  $this->cinema->showWithRelations($id, 'movies.showtimes');
+        // dd($cinema);
+        return view ('cinemas.show', compact('cinema'));
     }
 
     /**
@@ -73,7 +74,8 @@ class CinemaController extends Controller
      */
     public function edit($id)
     {
-        return view ('cinema.edit');
+        $cinema =  $this->cinema->show($id);
+        return view ('cinemas.edit', compact('cinema'));
     }
 
     /**
@@ -86,11 +88,11 @@ class CinemaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|alpha|max:180',
+            'title' => 'required',
             'address' => 'required'
         ]);
         $this->cinema->update($request->all(), $id);
-        return back()->with('Update successfully!');
+        return back()->with('success','Update successfully!');
     }
 
     /**
@@ -102,6 +104,6 @@ class CinemaController extends Controller
     public function destroy($id)
     {
         $this->cinema->delete($id);
-        return redirect('/cinema');
+        return redirect(route('cinemas.index'))->with('info', 'Cineme deleted successfully');
     }
 }

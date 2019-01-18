@@ -19,7 +19,7 @@ class MovieRepository implements RepositoryInterface
 
     public function all()
     {
-        return $this->movie->orderBy('release_date')->all();
+        return $this->movie->all()->sortBy('release_date');
     }
 
     public function create(array $data)

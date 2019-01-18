@@ -29,7 +29,7 @@ class CinemaRepository implements RepositoryInterface
 
     public function update(array $data, $id)
     {
-        $record = $this->find($id);
+        $record = $this->cinema->find($id);
         return $record->update($data);
     }
 
@@ -57,5 +57,10 @@ class CinemaRepository implements RepositoryInterface
     public function with($relations)
     {
         return $this->cinema->with($relations);
+    }
+
+    public function showWithRelations($id, $relations)
+    {
+        return $this->cinema->with($relations)->findOrFail($id);
     }
 }
