@@ -7,23 +7,26 @@
 				<div class="card-body">
 					<b>Title: </b>
 					<a href="{{ route('showtimes.show', $showtime->id) }}"><h3>{{ $showtime->title }}</h3></a>
+					<b>Day: </b>
+					<p>{{ $showtime->day }}</p>
 					<b>Start Time: </b>
-					<p>{{ $showtime->start_time }}</p>
+					<p>{{ $showtime->start_time }} <small>(24 hrs)</small></p>
 					<b>Stop Time: </b>
-					<p>{{ $showtime->stop_time }}</p>
+					<p>{{ $showtime->stop_time }} <small>(24 hrs)</small></p>
 					@if(auth()->check())
-						<form  method="post" action="{{ route('showtimes.destroy', $showtimes->id) }}">
+						<form  method="post" action="{{ route('showtimes.destroy', $showtime->id) }}">
 							<input type="hidden" name="_method" value="DELETE">
-							<input type="submit" value="Delete Movie" class="btn btn-danger">
+							<input type="submit" value="Delete Movie" class="btn btn-danger btn-sm">
 							{{ csrf_field() }}
 						</form>
-						<a href="{{ route('showtimes.edit', $showtimes->id) }}"><button class="btn btn-primary">Edit</button></a>
+						<br>
+						<a href="{{ route('showtimes.edit', $showtime->id) }}"><button class="btn btn-primary btn-sm">Edit</button></a>
 					@endif
 				</div>
 			</div>
 			<br>
 		@empty
-			<div><h4 class="text-danger">Showtimes availbale yet!</h4></div>
+			<div><h4 class="text-danger">No Showtimes availbale yet!</h4></div>
 		@endforelse
 	</div>
 @endsection

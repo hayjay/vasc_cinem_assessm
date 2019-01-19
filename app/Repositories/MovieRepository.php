@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Movie;
+use App\Models\Showtime;
 
 use App\Repositories\RepositoryInterface;
 /**
@@ -24,13 +25,28 @@ class MovieRepository implements RepositoryInterface
 
     public function create(array $data)
     {
-        return $this->movie->create($data);
+
+        $movie =  $this->movie->create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'release_date' => $data['release_date'],
+        ]);
+        if (array_key_exists("cinemas", $data)) $movie->cinemas()->attach($data['cinemas']);
+        if (array_key_exists("showtimes", $data)) $movie->showtimes()->saveMany(Showtime::whereIn('id', $data['showtimes'])->get());
+        return $movie;
     }
 
     public function update(array $data, $id)
     {
-        $record = $this->find($id);
-        return $record->update($data);
+        $record = $this->movie->find($id);
+        $record->update([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'release_date' => $data['release_date'],
+        ]);
+        if (array_key_exists("cinemas", $data)) $record->cinemas()->attach($data['cinemas']);
+        if (array_key_exists("showtimes", $data)) $record->showtimes()->saveMany(Showtime::whereIn('id', $data['showtimes'])->get());
+        return $record;
     }
 
     public function delete($id)
@@ -40,7 +56,7 @@ class MovieRepository implements RepositoryInterface
 
     public function show($id)
     {
-        return $this->movie->findOrFail($id);
+        return $this->movie->with('showtimes.cinema')->findOrFail($id);
     }
 
     public function getModel()

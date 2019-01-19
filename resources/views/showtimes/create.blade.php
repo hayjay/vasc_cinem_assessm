@@ -5,7 +5,7 @@
 		<div class="col-sm-12 card">
 			<div class="card-body ">
 				<h2>Create Showtime </h2><br>
-				<form method="POST" action="{{ route('cinemas.store') }}">
+				<form method="POST" action="{{ route('showtimes.store') }}">
 	                @csrf
 
 	                <div class="form-group row">
@@ -23,10 +23,10 @@
 	                </div>
 
 	                <div class="form-group row">
-	                    <label for="start_time" class="col-md-2 col-form-label text-md-right">Address: </label>
+	                    <label for="start_time" class="col-md-2 col-form-label text-md-right">Start Time: </label>
 
 	                    <div class="col-md-8">
-	                        <input id="start_time" type="timr" class="form-control{{ $errors->has('start_time') ? ' is-invalid' : '' }}" name="start_time" value="{{ old('start_time') }}" required autofocus>
+	                        <input id="start_time" type="time" class="form-control{{ $errors->has('start_time') ? ' is-invalid' : '' }}" name="start_time" value="{{ old('start_time') }}" required autofocus>
 
 	                        @if ($errors->has('start_time'))
 	                            <span class="invalid-feedback" role="alert">
@@ -37,10 +37,10 @@
 	                </div>
 
 	                <div class="form-group row">
-	                    <label for="stop_time" class="col-md-2 col-form-label text-md-right">Address: </label>
+	                    <label for="stop_time" class="col-md-2 col-form-label text-md-right">Stop Time: </label>
 
 	                    <div class="col-md-8">
-	                        <input id="stop_time" type="timr" class="form-control{{ $errors->has('stop_time') ? ' is-invalid' : '' }}" name="stop_time" value="{{ old('stop_time') }}" required autofocus>
+	                        <input id="stop_time" type="time" class="form-control{{ $errors->has('stop_time') ? ' is-invalid' : '' }}" name="stop_time" value="{{ old('stop_time') }}" required autofocus>
 
 	                        @if ($errors->has('stop_time'))
 	                            <span class="invalid-feedback" role="alert">
@@ -50,24 +50,34 @@
 	                    </div>
 	                </div>
 
-
 	                <div class="form-group row">
-	                    <label for="stop_time" class="col-md-2 col-form-label text-md-right">Address: </label>
+						<label for="day" class="col-md-2 col-form-label text-md-right">Select Day:</label>
+						<div class="col-md-8">
+							<select class="form-control" id="day" name="day">
+								<option value="Monday">Monday</option>
+								<option value="Tuesday">Tuesday</option>
+								<option value="Wednesday">Wednesday</option>
+								<option value="Thursday">Thursday</option>
+								<option value="Friday">Friday</option>
+								<option value="Saturday">Saturday</option>
+								<option value="Sunday">Sunday</option>
+							</select>
+						</div>
+					</div>
 
-	                    <div class="col-md-8">
-	                        <select name="cinema_id" value={{ old('cinema_id') }} class="form-control">
-	                        	@foreach($cinemas as $cinema)
-	                        		<option class="form-control" value="{{ $cinema->id }}">{{ $cinema->title }}</option>
+
+					<div class="form-group row">
+						<label for="day" class="col-md-2 col-form-label text-md-right">Select Cinema:</label>
+						<div class="col-md-8">
+							<select class="form-control" id="day" name="cinema_id">
+								@foreach($cinemas as $cinema)
+	                        		<option value="{{ $cinema->id }}">{{ $cinema->title }}</option>
 	                        	@endforeach
-	                        </select>
+							</select>
+						</div>
+					</div>
 
-	                        @if ($errors->has('cinema_id'))
-	                            <span class="invalid-feedback" role="alert">
-	                                <strong>{{ $errors->first('cinema_id') }}</strong>
-	                            </span>
-	                        @endif
-	                    </div>
-	                </div>
+	                
 
 	                <div class="form-group row mb-0">
 	                    <div class="col-md-8 offset-md-2">

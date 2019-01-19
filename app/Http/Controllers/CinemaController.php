@@ -62,7 +62,6 @@ class CinemaController extends Controller
     public function show($id)
     {
         $cinema =  $this->cinema->showWithRelations($id, 'movies.showtimes');
-        // dd($cinema);
         return view ('cinemas.show', compact('cinema'));
     }
 

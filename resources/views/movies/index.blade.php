@@ -7,23 +7,24 @@
 				<div class="card-body">
 					<b>Title: </b>
 					<a href="{{ route('movies.show', $movie->id) }}"><h3>{{ $movie->title }}</h3></a>
-					<b>Date: </b>
+					<b>Date <small>(YYYY-MM-DD)</small>: </b>
 					<p>{{ $movie->release_date }}</p>
 					<b>Description: </b>
 					<p>{{ $movie->description }}</p>
 					@if(auth()->check())
 						<form  method="post" action="{{ route('movies.destroy', $movie->id) }}">
 							<input type="hidden" name="_method" value="DELETE">
-							<input type="submit" value="Delete Movie" class="btn btn-danger">
+							<input type="submit" value="Delete Movie" class="btn btn-danger btn-sm">
 							{{ csrf_field() }}
 						</form>
-						<a href="{{ route('movies.edit', $movie->id) }}"><button class="btn btn-primary">Edit</button></a>
+						<br>
+						<a href="{{ route('movies.edit', $movie->id) }}"><button class="btn btn-primary btn-sm">Edit</button></a>
 					@endif
 				</div>
 			</div>
 			<br>
 		@empty
-			<div><h4 class="text-danger">Movies availbale yet  yet!</h4></div>
+			<div><h4 class="text-danger">No Movies availbale yet  yet!</h4></div>
 		@endforelse
 	</div>
 @endsection

@@ -6,6 +6,8 @@
 			<div class="card-body ">
 				<b>Title: </b>
 				<a href="{{ route('showtimes.show', $showtime->id) }}"><h3>{{ $showtime->title }}</h3></a>
+				<b>Day: </b>
+				<p>{{ $showtime->day }}</p>
 				<b>Start Time: </b>
 				<p>{{ $showtime->start_time }}</p>
 				<b>Stop Time: </b>

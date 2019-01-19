@@ -49,11 +49,11 @@ class ShowtimeController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'start_time' => 'required|time'
+            'start_time' => 'required'
         ]);
 
         $showtime =  $this->showtime->create($request->all());
-        return back()->with('Showtime created successfully!');
+        return back()->with('success', 'Showtime created successfully!');
     }
 
     /**
@@ -64,8 +64,8 @@ class ShowtimeController extends Controller
      */
     public function show($id)
     {
-        $showtime =  $this->showtime->show($id)->with('movies');
-        return view ('showtimes.show', compact('showtimes'));
+        $showtime =  $this->showtime->show($id);
+        return view ('showtimes.show', compact('showtime'));
     }
 
     /**
@@ -76,7 +76,9 @@ class ShowtimeController extends Controller
      */
     public function edit($id)
     {
-       return view ('showtimes.edit');
+        $cinemas = $this->cinema->all();
+        $showtime =  $this->showtime->show($id);
+        return view ('showtimes.edit', compact('cinemas', 'showtime'));
     }
 
     /**
@@ -90,10 +92,10 @@ class ShowtimeController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'start_time' => 'required|time'
+            'start_time' => 'required'
         ]);
         $this->showtime->update($request->all(), $id);
-        return back()->with('Update successfully!');
+        return back()->with('success','Update successfully!');
     }
 
     /**
@@ -105,6 +107,6 @@ class ShowtimeController extends Controller
     public function destroy($id)
     {
         $this->showtime->delete($id);
-        return redirect('/showtime');
+        return redirect(route('showtimes.index'))->with('info', 'Showtime deleted successfully');
     }
 }

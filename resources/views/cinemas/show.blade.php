@@ -32,10 +32,11 @@
 						<p>{{ $movie->release_date }}</p>
 						<b>Viewings: </b>
 						@forelse ($movie->showtimes->where('cinema_id', $cinema->id) as $showtime)
-							<b>Title: </b>
-							<h6>{{ $movie->title }}</h6>
-							<b>Release Date: </b>
-							<p>{{ $movie->release_date }}</p>
+							<a href="{{ route('showtimes.show', $showtime->id) }}"><h3>{{ $showtime->title }}</h3></a>
+							<b>Day: </b>
+							<p>{{ $showtime->day }}</p>
+							<b>Start Time: </b>
+							<p>{{ $showtime->start_time }} <small>(24 hrs)</small></p>
 						@empty
 							<div><h4 class="text-danger">No Showtime availbale yet!</h4></div>
 						@endforelse

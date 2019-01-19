@@ -29,7 +29,7 @@ class ShowtimeRepository implements RepositoryInterface
 
     public function update(array $data, $id)
     {
-        $record = $this->find($id);
+        $record = $this->showtime->find($id);
         return $record->update($data);
     }
 
@@ -40,7 +40,7 @@ class ShowtimeRepository implements RepositoryInterface
 
     public function show($id)
     {
-        return $this->showtime->with('movies')->findOrFail($id);
+        return $this->showtime->findOrFail($id);
     }
 
     public function getModel()

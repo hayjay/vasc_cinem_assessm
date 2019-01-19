@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\MovieRepository;
+use App\Repositories\ShowtimeRepository;
+use App\Repositories\CinemaRepository;
 
 class MovieController extends Controller
 {
     protected $movie;
 
-    function __construct(MovieRepository $movie)
+    function __construct(MovieRepository $movie, ShowtimeRepository $showtime, CinemaRepository $cinema)
     {
         $this->movie = $movie;
+        $this->cinema = $cinema;
+        $this->showtime = $showtime;
         $this->middleware('auth')->except(['show', 'index']);
     }
 
@@ -33,7 +37,9 @@ class MovieController extends Controller
      */
     public function create()
     {
-        return view ('movies.create');
+        $cinemas = $this->cinema->all();
+        $showtimes = $this->showtime->all();
+        return view ('movies.create', compact('cinemas', 'showtimes'));
     }
 
     /**
@@ -45,11 +51,12 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|alpha|max:180'
+            'title' => 'required',
+            'release_date' => 'required'
         ]);
 
         $movie =  $this->movie->create($request->all());
-        return back()->with('Movie created successfully!');
+        return back()->with('success', 'Movie created successfully!');
     }
 
     /**
@@ -60,8 +67,8 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        $movie =  $this->movie->show($id)->with('showtimes.cinema');
-        return view ('movies.show', compact('movies'));
+        $movie =  $this->movie->show($id);
+        return view ('movies.show', compact('movie'));
     }
 
     /**
@@ -72,7 +79,10 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-        return view ('movies.edit');
+        $cinemas = $this->cinema->all();
+        $showtimes = $this->showtime->all();
+        $movie =  $this->movie->show($id);
+        return view ('movies.edit', compact('movie', 'cinemas', 'showtimes'));
     }
 
     /**
@@ -85,10 +95,11 @@ class MovieController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|alpha|max:180'
+            'title' => 'required',
+            'release_date' => 'required'
         ]);
         $this->movie->update($request->all(), $id);
-        return back()->with('Update successfully!');
+        return back()->with('success', 'Update successfully!');
     }
 
     /**
@@ -100,6 +111,6 @@ class MovieController extends Controller
     public function destroy($id)
     {
         $this->movie->delete($id);
-        return redirect('/movie');
+        return redirect(route('movies.index'))->with('info', 'Movie successfully deleted!');
     }
 }

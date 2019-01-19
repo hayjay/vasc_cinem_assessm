@@ -4,8 +4,8 @@
 		@include('partials.feedback')
 		<div class="col-sm-12 card">
 			<div class="card-body ">
-				<h2>Create Cinema </h2><br>
-				<form method="POST" action="{{ route('cinemas.store') }}">
+				<h2>Create Movie </h2><br>
+				<form method="POST" action="{{ route('movies.store') }}">
 	                @csrf
 
 	                <div class="form-group row">
@@ -23,16 +23,54 @@
 	                </div>
 
 	                <div class="form-group row">
-	                    <label for="address" class="col-md-2 col-form-label text-md-right">Address: </label>
+	                    <label for="description" class="col-md-2 col-form-label text-md-right">Description: </label>
 
 	                    <div class="col-md-8">
-	                        <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required autofocus>
+	                        <textarea id="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" >{{ old('description') }}</textarea>
 
-	                        @if ($errors->has('address'))
+	                        @if ($errors->has('description'))
 	                            <span class="invalid-feedback" role="alert">
-	                                <strong>{{ $errors->first('address') }}</strong>
+	                                <strong>{{ $errors->first('description') }}</strong>
 	                            </span>
 	                        @endif
+	                    </div>
+	                </div>
+
+	                <div class="form-group row">
+	                    <label for="release_date" class="col-md-2 col-form-label text-md-right">Release Date: </label>
+
+	                    <div class="col-md-8">
+	                        <input id="release_date" type="date" class="form-control{{ $errors->has('release_date') ? ' is-invalid' : '' }}" name="release_date" value="{{ old('release_date') }}" required autofocus>
+
+	                        @if ($errors->has('release_date'))
+	                            <span class="invalid-feedback" role="alert">
+	                                <strong>{{ $errors->first('release_date') }}</strong>
+	                            </span>
+	                        @endif
+	                    </div>
+	                </div>
+
+	                <div class="form-group row">
+	                    <label for="description" class="col-md-2 col-form-label text-md-right">Select Cinemas: </label>
+
+	                    <div class="col-md-8">
+	                    	@foreach($cinemas as $cinema)
+	                        	<div class="col-md-12">
+	                        		<label class="form-check-label"><input value="{{ $cinema->id }}" type="checkbox" class="form-check-input" name="cinemas[]"> {{ $cinema->title }} <small>({{ $cinema->address }})</small></label>
+	                        	</div>
+	                    	@endforeach
+	                    </div>
+	                </div>
+
+	                <div class="form-group row">
+	                    <label for="description" class="col-md-2 col-form-label text-md-right">Select Showtimes: </label>
+
+	                    <div class="col-md-8">
+	                    	@foreach($showtimes as $showtime)
+	                    		<div class="col-md-12">
+	                        		<label class="form-check-label"><input value="{{ $showtime->id }}" type="checkbox" class="form-check-input" name="showtimes[]"> {{ $showtime->title }} - {{ $showtime->start_time }} <small>(24 hrs)</small></label>
+	                        	</div>
+	                    	@endforeach
 	                    </div>
 	                </div>
 

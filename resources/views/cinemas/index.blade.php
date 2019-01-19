@@ -22,7 +22,7 @@
 			</div>
 			<br>
 		@empty
-			<div><h4 class="text-danger">Cinemas availbale yet!</h4></div>
+			<div><h4 class="text-danger">No Cinemas availbale yet!</h4></div>
 		@endforelse
 	</div>
 @endsection

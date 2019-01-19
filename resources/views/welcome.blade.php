@@ -85,9 +85,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="/cinemas">Cinemas</a>
-                    <a href="/movies">Movies</a>
-                    <a href="showtimes">GitHub</a>
+                    <a href="{{ route('cinemas.index') }}">Cinemas</a>
+                    <a href="{{ route('movies.index') }}">Movies</a>
+                    <a href="{{ route('showtimes.index') }}">Showtimes</a>
                 </div>
             </div>
         </div>
